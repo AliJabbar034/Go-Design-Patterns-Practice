@@ -1,0 +1,102 @@
+{{template "base" .}}
+
+{{define "content"}}
+
+<div class="container">
+  <div class="row">
+     <div class="col">
+       <h1 class="mt-4">Design Pattern in Golang</h1>
+       <hr>
+       <h3>Factory</h3>
+      <div>
+       <a href="javascript:void(0);" id="dog-factory-button" class="btn btn-outline-secondary">Get A Dog From Secondary</a>
+       <a href="javascript:void(0);" id="cat-factory-button" class="btn btn-outline-secondary">Get A Cat From Secondary</a>
+      </div>
+
+      <div class="mt-2" style="outline: 1px solid silver; padding:2em;">
+      <pre id="factory-output">
+      <span class="text-muted">Nothing Received Yet</span>
+      </pre>
+      </div>
+      <hr class="mt-4">
+      <h3 class="mt-3">Abstract Factory</h3>
+      <div>
+           <a href="javascript:void(0);" id="dog-abstract-button" class="btn btn-outline-secondary">Get A Dog From Abstract Factory</a>
+       <a href="javascript:void(0);" id="cat-abstract-button" class="btn btn-outline-secondary">Get A Cat From Abstract Factory</a>
+      
+      </div>
+
+      <pre id="abstract-output">
+      <span class="text-muted">Nothing Received Yet</span>
+      </pre>
+      </div>
+
+     </div>
+  </div>
+</div>
+
+{{end}}
+
+
+{{define "js"}}
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    let dogFactoryButton = document.getElementById("dog-factory-button");
+    let catFactoryButton = document.getElementById("cat-factory-button");
+    let factoryOutput = document.getElementById("factory-output");
+     let dogAbstractButton = document.getElementById("dog-abstract-button");
+    let catAbstractButton = document.getElementById("cat-abstract-button");
+    let AbstractOutput = document.getElementById("abstract-output");
+
+    dogFactoryButton.addEventListener("click", function() {
+        fetch("/api/dog-from-factory", { method: "get" })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.error) {
+                    factoryOutput.innerHTML = data.error;
+                } else {
+                    factoryOutput.innerHTML = JSON.stringify(data, undefined, 4);
+                }
+            });
+    });
+
+    catFactoryButton.addEventListener("click", function() {
+        fetch("/api/cat-from-factory", { method: "get" })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.error) {
+                    factoryOutput.innerHTML = data.error;
+                } else {
+                    factoryOutput.innerHTML = JSON.stringify(data, undefined, 4);
+                }
+            });
+    });
+
+     dogAbstractButton.addEventListener("click", function() {
+        fetch("/api/dog-from-abstract-factory", { method: "get" })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.error) {
+                    AbstractOutput.innerHTML = data.error;
+                } else {
+                    AbstractOutput.innerHTML = JSON.stringify(data, undefined, 4);
+                }
+            });
+    });
+
+    catAbstractButton.addEventListener("click", function() {
+        fetch("/api/cat-from-abstract-factory", { method: "get" })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.error) {
+                    AbstractOutput.innerHTML = data.error;
+                } else {
+                    AbstractOutput.innerHTML = JSON.stringify(data, undefined, 4);
+                }
+            });
+    });
+});
+</script>
+
+{{end}}
